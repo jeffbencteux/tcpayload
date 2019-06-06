@@ -39,10 +39,10 @@ def send_fin_close(saddr, daddr, sport, dport, next_seq, next_ack, sleeptime):
 	time.sleep(sleeptime)
 	send(ACK2)
 
-def send_rst_close(saddr, daddr, sport, dport, sleeptime):
-	RST = IP(src=saddr, dst=daddr)/TCP(sport=sport, dport=dport, flags="FA", seq=ANS1.ack, ack=ANS1.seq)
+def send_rst_close(saddr, daddr, sport, dport, next_seq, next_ack, sleeptime):
+	RST = IP(src=saddr, dst=daddr)/TCP(sport=sport, dport=dport, flags="R", seq=next_seq, ack=next_ack)
 	time.sleep(sleeptime)
-	RSTACK = sr1(FIN)
+	RSTACK = sr1(RST)
 
 def main():
 	parser = argparse.ArgumentParser(description="The ultimate TCP payload wrapper around Scapy")
